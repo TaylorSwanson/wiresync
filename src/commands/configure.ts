@@ -1,9 +1,9 @@
 import askQuestion from "../util/askQuestion";
 import askYN from "../util/askYN";
 import chalk from "chalk";
+import scanNetwork from "../scanNetwork";
 
 const isValidIp = value => (/^(?:(?:^|\.)(?:2(?:5[0-5]|[0-4]\d)|1?\d?\d)){4}$/.test(value));
-
 
 export = async function help(commands: Array<string>) {
   let isNewConnection = false;
@@ -36,13 +36,17 @@ export = async function help(commands: Array<string>) {
           range = await askQuestion("Enter address to start scanning at (typically 192.168.0.1 on home networks):");
         }
 
-        const confirmScan = await askYN(`Are you sure you are allowed to scan ${range}? (y/n):`);
+        const sr = range.split(".");
+        const rangeString = `${sr[0]}.${sr[1]}.${sr[2]}.${sr[3]} to ${sr[0]}.${sr[1]}.${sr[2]}.255`
 
-        if (confirmScan) {
+        const confirmScan = await askYN(`Are you sure you are allowed to scan ${rangeString}? (y/n):`);
+
+        if (!confirmScan) {
           console.log(chalk.red("Will not scan the network"));
           process.exit(2);
         }
 
+        const servers = await scanNetwork(`${sr[0]}.${sr[1]}.${sr[2]}.`);
       }
     } else {
 

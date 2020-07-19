@@ -31,9 +31,11 @@
   },
   "homepage": "https://github.com/TaylorSwanson/wiresync#readme",
   "dependencies": {
+    "@types/progress": "^2.0.3",
     "chalk": "^4.1.0",
     "progress": "^2.0.3",
-    "typescript": "^3.9.7"
+    "typescript": "^3.9.7",
+    "xxp": "git+https://github.com/TaylorSwanson/xxp.git"
   },
   "devDependencies": {
     "@types/node": "^14.0.23"
