@@ -5,7 +5,11 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "tsc"
+    "build": "tsc"
+  },
+  "preferGlobal": true,
+  "bin": {
+    "wiresync": "cli.js"
   },
   "repository": {
     "type": "git",
@@ -26,6 +30,11 @@
   },
   "homepage": "https://github.com/TaylorSwanson/wiresync#readme",
   "dependencies": {
+    "chalk": "^4.1.0",
+    "progress": "^2.0.3",
     "typescript": "^3.9.7"
+  },
+  "devDependencies": {
+    "@types/node": "^14.0.23"
   }
 }
