@@ -22,10 +22,11 @@ function extractCommands() {
 }
 
 
-function executeMethod(method: string) {
+function executeMethod(method: string, commands: Array<string>) {
   // Check if we have this method
   if (!execCommands.hasOwnProperty(method)) {
-    console.log(chalk.red(`Could not find command '${method}'\n`));
+    if (method)
+      console.log(chalk.red(`Could not find command '${method}'\n`));
 
     // Execute the help method automatically if it doesn't exist
     execCommands["help"]();
@@ -33,7 +34,7 @@ function executeMethod(method: string) {
     process.exit(1);
   }
 
-  execCommands[method]();
+  execCommands[method](commands);
 }
 
 
@@ -43,7 +44,10 @@ function main() {
   const commands = extractCommands();
   const method = commands[0];
 
-  executeMethod(method);
+  // Show only commands to the call that are relevant, use an array copy to splice
+  const commandsCopy = [...commands];
+  const callCommands = commandsCopy.splice(1);
+  executeMethod(method, callCommands);
 }
 
 main();
