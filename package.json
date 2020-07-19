@@ -1,15 +1,15 @@
 {
   "name": "wiresync",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Easily sync files over a LAN",
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc"
+    "postinstall": "tsc && chmod +x ./dist/index.js"
   },
   "preferGlobal": true,
   "bin": {
-    "wiresync": "cli.js"
+    "wiresync": "dist/index.js"
   },
   "repository": {
     "type": "git",
@@ -21,7 +21,8 @@
     "directory",
     "sync",
     "backup",
-    "transfer"
+    "transfer",
+    "server"
   ],
   "author": "Taylor Swanson",
   "license": "MIT",
