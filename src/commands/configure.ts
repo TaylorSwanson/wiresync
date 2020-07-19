@@ -47,6 +47,7 @@ export = async function configure(commands: Array<string>) {
         }
 
         console.log("\n");
+        // This is where the actual network scan is performed
         const servers = await scanNetwork(`${sr[0]}.${sr[1]}.${sr[2]}.`);
 
         console.log(`Found ${servers.length} servers`);
