@@ -1,4 +1,4 @@
-# Wiresync (WIP)
+# Wiresync (Abandonware)
 CLI tool to Easily send files and folders over wifi
 
 ## Why use wiresync
