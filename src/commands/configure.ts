@@ -46,7 +46,10 @@ export = async function help(commands: Array<string>) {
           process.exit(2);
         }
 
+        console.log("\n");
         const servers = await scanNetwork(`${sr[0]}.${sr[1]}.${sr[2]}.`);
+
+        console.log(`Found ${servers.length} servers`);
       }
     } else {
 
