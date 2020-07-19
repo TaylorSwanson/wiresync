@@ -5,7 +5,7 @@ import scanNetwork from "../scanNetwork";
 
 const isValidIp = value => (/^(?:(?:^|\.)(?:2(?:5[0-5]|[0-4]\d)|1?\d?\d)){4}$/.test(value));
 
-export = async function help(commands: Array<string>) {
+export = async function configure(commands: Array<string>) {
   let isNewConnection = false;
   
   if (commands.length == 1) {
@@ -25,9 +25,9 @@ export = async function help(commands: Array<string>) {
     const knowsAddress = await askYN("Do you know the LAN address of the remote? (y/n):");
     
     if (!knowsAddress) {
-      const canScan = await askYN("Do you want to scan your local network for a remote? (y/n):");
+      const canScan = await askYN("Can you scan your local network for a remote? (y/n):");
       if (!canScan) {
-        console.log(chalk.red(`Cannot find a server without scanning network`));
+        console.log(chalk.red(`Cannot configure a remote without scanning network`));
         process.exit(2);
       } else {
         // Ask for range, make sure it's valid
@@ -39,7 +39,7 @@ export = async function help(commands: Array<string>) {
         const sr = range.split(".");
         const rangeString = `${sr[0]}.${sr[1]}.${sr[2]}.${sr[3]} to ${sr[0]}.${sr[1]}.${sr[2]}.255`
 
-        const confirmScan = await askYN(`Are you sure you are allowed to scan ${rangeString}? (y/n):`);
+        const confirmScan = await askYN(chalk.yellow(`\nAre you sure you are allowed to scan ${rangeString}? (y/n):`));
 
         if (!confirmScan) {
           console.log(chalk.red("Will not scan the network"));
@@ -52,7 +52,12 @@ export = async function help(commands: Array<string>) {
         console.log(`Found ${servers.length} servers`);
       }
     } else {
-
+      // Ask for address, make sure it's valid
+      let address = ""
+      while (!isValidIp(address)) {
+        address = await askQuestion("Enter local IP address of server:");
+      }
+      console.log(`\nAttempting to connect to ${address}...`);
     }
   } else {
 

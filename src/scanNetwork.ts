@@ -4,7 +4,6 @@ import net, { Socket } from "net";
 
 import ProgressBar from "progress";
 import * as xxp from "xxp";
-import { nextTick } from "process";
 
 export = async function scanNetwork(startingAddressString: string): Promise<Array<object>> {
   return new Promise((resolve, reject) => {
@@ -30,19 +29,22 @@ export = async function scanNetwork(startingAddressString: string): Promise<Arra
   
     const foundServers: Array<object> = [];
 
-    for (var i = 0; i < 256; i++) {
+    for (let i = 0; i < 256; i++) {
+
       // Stagger the outgoing requests
       setTimeout(() => {
-        const host = `${startingAddressString}${i}`;
 
+        const host = `${startingAddressString}${i}`;
+        // bar.interrupt(`Scanning ${host}:43511`);
+  
         const socket: Socket = net.createConnection({
           port: 43511,
           host,
           timeout: 5000
         });
-
+  
         next();
-
+  
         socket.on("connect", () => {
           // We found a server, get name
           const packet = xxp.packetFactory.newPacket({
@@ -51,7 +53,7 @@ export = async function scanNetwork(startingAddressString: string): Promise<Arra
               type: "ask_name"
             }
           }).packet;
-
+  
           socket.write(packet);
           
           // Listen for response
@@ -61,28 +63,28 @@ export = async function scanNetwork(startingAddressString: string): Promise<Arra
                 name: content,
                 host
               });
-
+  
               socket.end();
             } else {
               console.log("Unexpected reply type to name request:", header.type);
             }
           })
         });
-
+  
         socket.on("timeout", () => {
           // We need to close it ourselves
           socket.destroy();
         });
-
+  
         socket.on("error", () => {
           // next();
         });
-
+  
         socket.on("close", () => {
           next();
         });
+
       }, 15 * i);
-      
     }
   });
 };
