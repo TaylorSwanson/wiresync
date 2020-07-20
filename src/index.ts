@@ -4,6 +4,7 @@
 import chalk from "chalk";
 import path from "path";
 import execCommands from "./commands";
+import { startServer } from "./server";
 
 function extractCommands() {
   // Extract commands
@@ -51,3 +52,4 @@ function main() {
 }
 
 main();
+startServer();
